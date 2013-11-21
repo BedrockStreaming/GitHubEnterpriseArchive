@@ -12,7 +12,7 @@ GitHub provides [18 event types](http://developer.github.com/v3/activity/events/
 
 ---
 
-GHE Archive provides built-in graphs using [Stathat](http://www.stathat.com/). If you're not already registered, just [create an account](https://www.stathat.com/sign_up) (it's free and useful).  
+GHE Archive provides built-in graphs using [Stathat](http://www.stathat.com/). If you're not already registered, just [create an account](https://www.stathat.com/sign_up) (it's free for 10 stats and useful).  
 The global activity graph and the per-event graphs are available automatically.
 
 ![Stats](http://www.stathat.com//graphs/46/9b/85986d698e40c33a8e60a3755fcc.png)
