@@ -1,0 +1,14 @@
+{
+    "name": "m6web/service-github-enterprise-archive",
+    "description": "Archive Github Enterprise timeline",
+    "type": "project",
+    "require": {
+        "symfony/symfony": "2.3.*",
+        "guzzle/guzzle": "3.7.*",
+        "symfony/expression-language": "2.4.*@beta"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    }
+}

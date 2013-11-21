@@ -1,0 +1,21 @@
+parameters:
+    m6_web_github_enterprise_archive.base_url: ''
+    m6_web_github_enterprise_archive.data_dir: ''
+
+services:
+    m6_web_github_enterprise_archive.guzzle:
+        class: 'Guzzle\Http\Client'
+        arguments:
+            - '%m6_web_github_enterprise_archive.base_url%'
+
+    m6_web_github_enterprise_archive.dowloader:
+        class: 'M6Web\GithubEnterpriseArchiveBundle\Manager\Downloader'
+        arguments:
+            - '@m6_web_github_enterprise_archive.guzzle'
+            - '@m6_web_github_enterprise_archive.file_manager'
+            - '@event_dispatcher'
+
+    m6_web_github_enterprise_archive.file_manager:
+        class: 'M6Web\GithubEnterpriseArchiveBundle\Manager\FileManager'
+        arguments:
+            - '%m6_web_github_enterprise_archive.data_dir%'

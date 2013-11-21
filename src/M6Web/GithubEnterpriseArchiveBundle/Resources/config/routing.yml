@@ -1,0 +1,9 @@
+m6_web_github_enterprise_archive_get_events:
+    pattern: "/api/events/{year}-{month}-{day}"
+    defaults:
+        _controller: 'M6WebGithubEnterpriseArchiveBundle:Event:getEvents'
+    requirements:
+        _method: GET
+        year:  "\d{4}"
+        month: "\d{2}"
+        day:   "\d{2}"

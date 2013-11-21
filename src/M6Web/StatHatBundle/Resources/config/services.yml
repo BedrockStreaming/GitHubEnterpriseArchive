@@ -1,0 +1,11 @@
+parameters:
+    m6_web_stat_hat.ez_key: ''
+
+services:
+    m6_web_stat_hat.client:
+        class: M6Web\StatHatBundle\Client\StatHatClient
+        arguments:
+            - '%m6_web_stat_hat.ez_key%'
+
+    m6_web_stat_hat.expression_language:
+        class: 'Symfony\Component\ExpressionLanguage\ExpressionLanguage'

@@ -1,0 +1,39 @@
+imports:
+    - { resource: parameters.yml }
+
+framework:
+    secret: ""
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: false
+    validation: ~
+    templating:
+        engines: ['twig']
+    default_locale:  en
+    trusted_proxies: ~
+    session:         ~
+    fragments:       ~
+    http_method_override: true
+
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+
+
+m6_web_github_enterprise_archive:
+    base_url: %github_base_url%
+
+m6_web_stat_hat:
+    enabled: %stathat_enabled%
+    ez_key: %stathat_ezkey%
+    counts:
+        -
+            event: m6_web_github_enterprise_archive.event_download
+            stat_key:  "expr(event.getGithubEvent()['type'])"
+            timestamp: "expr(event.getGithubEventCreatedAt().format('U'))"
+        -
+            event: m6_web_github_enterprise_archive.event_download
+            stat_key:  "Event"
+            timestamp: "expr(event.getGithubEventCreatedAt().format('U'))"

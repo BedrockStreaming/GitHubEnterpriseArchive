@@ -1,0 +1,2 @@
+M6WebGithubEnterpriseArchiveBundle:
+    resource: '@M6WebGithubEnterpriseArchiveBundle/Resources/config/routing.yml'

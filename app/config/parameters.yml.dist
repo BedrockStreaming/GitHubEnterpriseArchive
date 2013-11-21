@@ -1,0 +1,4 @@
+parameters:
+    github_base_url: {#GITHUB_BASE_URL#}
+    stathat_enabled: {#STATHAT_ENABLED#}
+    stathat_ezkey:   {#STATHAT_EZKEY#}

@@ -1,0 +1,5 @@
+standard=Cytron
+verbose=true
+src/
+app/AppKernel.php
+!Tests
