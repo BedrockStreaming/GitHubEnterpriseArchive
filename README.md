@@ -12,8 +12,7 @@ GitHub provides [18 event types](http://developer.github.com/v3/activity/events/
 
 ---
 
-GHE Archive provides built-in graphs using [Stathat](http://www.stathat.com/). If you're not already registered, just [create an account](https://www.stathat.com/sign_up) (it's free for 10 stats and useful).  
-The global activity graph and the per-event graphs are available automatically.
+GHE Archive provides built-in graphs using [Stathat](http://www.stathat.com/). If you're not already registered, just [create an account](https://www.stathat.com/sign_up) (it's free for 10 stats and useful). The global activity graph and the per-event graphs are available automatically.
 
 ![Stats](http://www.stathat.com//graphs/46/9b/85986d698e40c33a8e60a3755fcc.png)
 
@@ -32,10 +31,9 @@ The global activity graph and the per-event graphs are available automatically.
 
 Add the command `app/console archive` to your crontab. Due to Github limitation, it can archive only the last 300 events. You must choose your cron frequency so that there are no more than 300 events between two cron jobs. The command automatically stops archiving events older than the last run. That means you should prefer to run it too frequently rather than risk losing some events.
 
-#### Stathat
+#### Stathat (optional)
 
-If you registered to [Stathat](http://www.stathat.com/), enable the functionality and add your [API key](https://www.stathat.com/settings#ez-api) in `app/config/parameters.yml` (optional).  
-The graphs are automatically generated.
+If you registered to [Stathat](http://www.stathat.com/), enable the functionality and add your [API key](https://www.stathat.com/settings#ez-api) in `app/config/parameters.yml`. The graphs are automatically generated.
 
 ## Credits
 
