@@ -1,18 +1,3 @@
-m6_web_github_enterprise_archive_get_events_by_day:
-    pattern: "/api/events/{year}-{month}-{day}"
-    defaults:
-        _controller: 'M6WebGithubEnterpriseArchiveBundle:Event:getEventsByDay'
-    requirements:
-        _method: GET
-        year:  "\d{4}"
-        month: "\d{2}"
-        day:   "\d{2}"
-
-m6_web_github_enterprise_archive_get_events_by_month:
-    pattern: "/api/events/{year}-{month}"
-    defaults:
-        _controller: 'M6WebGithubEnterpriseArchiveBundle:Event:getEventsByMonth'
-    requirements:
-        _method: GET
-        year:  "\d{4}"
-        month: "\d{2}"
+m6_web_github_enterprise_archive:
+    resource: "@M6WebGithubEnterpriseArchiveBundle/Controller/EventController.php"
+    type:     rest

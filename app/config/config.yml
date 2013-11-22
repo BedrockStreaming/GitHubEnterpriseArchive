@@ -20,7 +20,30 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
+sensio_framework_extra:
+    view:
+        annotations: false
+
+nelmio_api_doc:
+    name: GitHub Enterprise Archive API
+    sandbox:
+        request_format:
+            method: accept_header
+
+fos_rest:
+    param_fetcher_listener: true
+    routing_loader:
+        include_format: false
+    format_listener:
+        rules:
+            - { host: localhost, priorities: ['xml', 'json'], fallback_format: xml } # For tests
+            - { priorities: ['json'], fallback_format: json }
+    view:
+        view_response_listener: true
+    serializer:
+        serialize_null: true
 
 m6_web_github_enterprise_archive:
     base_url: %github_base_url%

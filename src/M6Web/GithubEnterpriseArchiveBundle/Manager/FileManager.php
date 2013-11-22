@@ -120,7 +120,7 @@ class FileManager implements DataManagerInterface
                 ->sortByName();
 
             foreach ($files as $file) {
-                $data[] = json_decode(file_get_contents($file->getRealPath()));
+                $data[] = json_decode(file_get_contents($file->getRealPath()), true);
             }
         }
 
