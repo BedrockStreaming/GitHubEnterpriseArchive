@@ -19,9 +19,22 @@ class EventController extends Controller
      *
      * @return JsonResponse
      */
-    public function getEventsAction($year, $month, $day)
+    public function getEventsByDayAction($year, $month, $day)
     {
         $data = $this->get('m6_web_github_enterprise_archive.file_manager')->getByDate($year, $month, $day);
+
+        return new JsonResponse($data);
+    }
+
+    /**
+     * @param int $year  Year
+     * @param int $month Month
+     *
+     * @return JsonResponse
+     */
+    public function getEventsByMonthAction($year, $month)
+    {
+        $data = $this->get('m6_web_github_enterprise_archive.file_manager')->getByDate($year, $month);
 
         return new JsonResponse($data);
     }

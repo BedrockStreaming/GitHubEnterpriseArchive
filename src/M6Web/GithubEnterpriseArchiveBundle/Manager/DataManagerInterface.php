@@ -24,7 +24,7 @@ interface DataManagerInterface
     public function saveItem($item);
 
     /**
-     * Get all events of a given date
+     * Get all events of a given date (day or month)
      *
      * @param int $year
      * @param int $month
@@ -32,5 +32,5 @@ interface DataManagerInterface
      *
      * @return array
      */
-    public function getByDate($year, $month, $day);
+    public function getByDate($year, $month, $day = null);
 }
