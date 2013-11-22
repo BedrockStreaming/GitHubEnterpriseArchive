@@ -18,7 +18,7 @@ class FileManager implements DataManagerInterface
     /**
      * Constructor
      *
-     * @param string $rootDir
+     * @param string $rootDir Root directory
      */
     public function __construct($rootDir)
     {
@@ -59,6 +59,13 @@ class FileManager implements DataManagerInterface
         $this->fs->dumpFile(sprintf('%s/%s/%04d', $this->rootDir, $dir, $index), json_encode($item));
     }
 
+    /**
+     * Get the next index of a directory
+     * 
+     * @param string $dir Directory
+     * 
+     * @return int
+     */
     protected function nextIndex($dir)
     {
         $index   = 0;
@@ -89,22 +96,32 @@ class FileManager implements DataManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getByDate($year, $month, $day)
+    public function getByDate($year, $month, $day = null)
     {
         $data = [];
-        $dir  = sprintf('%s/%d-%02d-%02d', $this->rootDir, $year, $month, $day);
 
-        if (!$this->fs->exists($dir)) {
-            return $data;
+        if (!$day) {
+            $time = strtotime(sprintf('%d-%02d-01', $year, $month));
+            for ($d = 1; $d < date('t', $time); $d++) {
+                $dirs[] = sprintf('%s/%d-%02d-%02d', $this->rootDir, $year, $month, $d);
+            }
+        } else {
+            $dirs[] = sprintf('%s/%d-%02d-%02d', $this->rootDir, $year, $month, $day);
         }
 
-        $files = Finder::create()
-            ->in($dir)
-            ->notName('index.txt')
-            ->sortByName();
+        foreach ($dirs as $dir) {
+            if (!$this->fs->exists($dir)) {
+                continue;
+            }
 
-        foreach ($files as $file) {
-            $data[] = json_decode(file_get_contents($file->getRealPath()));
+            $files = Finder::create()
+                ->in($dir)
+                ->notName('index.txt')
+                ->sortByName();
+
+            foreach ($files as $file) {
+                $data[] = json_decode(file_get_contents($file->getRealPath()));
+            }
         }
 
         return array_reverse($data);
