@@ -1,2 +1,7 @@
 M6WebGithubEnterpriseArchiveBundle:
     resource: '@M6WebGithubEnterpriseArchiveBundle/Resources/config/routing.yml'
+    prefix:   /api
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc

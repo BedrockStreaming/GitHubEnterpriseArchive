@@ -16,6 +16,10 @@ class AppKernel extends Kernel
         $bundles = array(
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
+            new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
 
             new M6Web\GithubEnterpriseArchiveBundle\M6WebGithubEnterpriseArchiveBundle(),
             new M6Web\StatHatBundle\M6WebStatHatBundle(),
