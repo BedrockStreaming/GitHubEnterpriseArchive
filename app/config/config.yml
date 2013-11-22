@@ -18,8 +18,8 @@ framework:
     http_method_override: true
 
 twig:
-    debug:            %kernel.debug%
-    strict_variables: %kernel.debug%
+    debug:                %kernel.debug%
+    strict_variables:     %kernel.debug%
     exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
 sensio_framework_extra:
