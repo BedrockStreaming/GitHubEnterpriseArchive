@@ -29,8 +29,10 @@ interface DataManagerInterface
      * @param int $year  Year
      * @param int $month Month
      * @param int $day   Day
+     * @param int $start Start index
+     * @param int $limit Number of elements to return
      *
      * @return array
      */
-    public function getByDate($year, $month, $day = null);
+    public function getByDate($year, $month, $day = null, $start = 0, $limit = 10);
 }

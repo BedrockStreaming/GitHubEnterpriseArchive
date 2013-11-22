@@ -96,7 +96,7 @@ class FileManager implements DataManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getByDate($year, $month, $day = null)
+    public function getByDate($year, $month, $day = null, $start = 0, $limit = 20)
     {
         $data = [];
 
@@ -109,8 +109,24 @@ class FileManager implements DataManagerInterface
             $dirs[] = sprintf('%s/%d-%02d-%02d', $this->rootDir, $year, $month, $day);
         }
 
-        foreach ($dirs as $dir) {
-            if (!$this->fs->exists($dir)) {
+        $dirsNumber = count($dirs);
+
+        $i = $counter = 0;
+
+        // Ends if all directories are parsed or if we have enough data
+        while ((count($data) < $limit) && ($i < $dirsNumber)) {
+            $dir = $dirs[$i++];
+
+            // If it is not a valid directory, skip the directory
+            if (!$this->fs->exists($dir) || !$this->fs->exists($dir . '/index.txt')) {
+                continue;
+            }
+
+            $index = (int) file_get_contents($dir . '/index.txt');
+
+            // If we are not at start index, next directory
+            if (($counter + $index) < $start) {
+                $counter += $index;
                 continue;
             }
 
@@ -119,9 +135,24 @@ class FileManager implements DataManagerInterface
                 ->notName('index.txt')
                 ->sortByName();
 
-            foreach ($files as $file) {
+            $fileIterator = $files->getIterator();
+            $fileIterator->rewind();
+
+            $j = 0;
+
+            // Ends if all files are parsed or if we have enough data
+            while ((count($data) < $limit) && ($file = $fileIterator->current())) {
+                $fileIterator->next();
+
+                // If we are not at start index, next file
+                if (($counter + $j++) < $start) {
+                    continue;
+                }
+
                 $data[] = json_decode(file_get_contents($file->getRealPath()), true);
             }
+
+            $counter += $index;
         }
 
         return array_reverse($data);
