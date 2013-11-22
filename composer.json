@@ -1,5 +1,5 @@
 {
-    "name": "m6web/service-github-enterprise-archive",
+    "name": "m6web/github-enterprise-archive",
     "description": "Archive Github Enterprise timeline",
     "type": "project",
     "require": {
