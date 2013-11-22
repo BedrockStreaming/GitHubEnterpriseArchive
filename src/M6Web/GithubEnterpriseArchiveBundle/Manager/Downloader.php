@@ -32,17 +32,47 @@ class Downloader
     }
 
     /**
+     * Get HTTP Client
+     *
+     * @return Client
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Get HTTP Manager
+     *
+     * @return DataManagerInterface
+     */
+    public function getManager()
+    {
+        return $this->manager;
+    }
+
+    /**
+     * Get HTTP EventDispatcher
+     *
+     * @return EventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
+    /**
      * Download items
      *
      * @return int Nb of items downloaded
      */
     public function download()
     {
-        $lastDate    = $this->manager->getLastSavedDate();
+        $lastDate    = $this->getManager()->getLastSavedDate();
         $itemsToSave = [];
 
         for ($page = 1; $page <= 10; $page++) {
-            $response = $this->client->get('/timeline.json?page='.$page)->send();
+            $response = $this->getClient()->get('/timeline.json?page='.$page)->send();
 
             if ($response->getContentType() !== 'application/json; charset=utf-8') {
                 throw new \RuntimeException('Bad content type received');
@@ -59,8 +89,8 @@ class Downloader
         }
 
         foreach (array_reverse($itemsToSave) as $item) {
-            $this->manager->saveItem($item);
-            $this->eventDispatcher->dispatch(
+            $this->getManager()->saveItem($item);
+            $this->getEventDispatcher()->dispatch(
                 GithubEventDownloadedEvent::EVENT_DOWNLOAD,
                 new GithubEventDownloadedEvent($item)
             );

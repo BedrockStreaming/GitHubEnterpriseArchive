@@ -27,19 +27,39 @@ class FileManager implements DataManagerInterface
     }
 
     /**
+     * Get root directory
+     *
+     * @return string
+     */
+    public function getRootDirectory()
+    {
+        return $this->rootDir;
+    }
+
+    /**
+     * Get filesystem
+     *
+     * @return string
+     */
+    public function getFilesystem()
+    {
+        return $this->fs;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getLastSavedDate()
     {
         $dir = '2000-01-01';
-        if ($this->fs->exists($this->rootDir.'/index.txt')) {
-            $dir = file_get_contents($this->rootDir.'/index.txt');
+        if ($this->getFilesystem()->exists($this->getRootDirectory().'/index.txt')) {
+            $dir = file_get_contents($this->getRootDirectory().'/index.txt');
         }
         $lastDate = $dir.'T00:00:00Z';
-        if ($this->fs->exists($this->rootDir.'/'.$dir.'/index.txt')) {
-            $index = file_get_contents($this->rootDir.'/'.$dir.'/index.txt');
-            if ($this->fs->exists(sprintf('%s/%s/%04d', $this->rootDir, $dir, $index))) {
-                $data     = file_get_contents(sprintf('%s/%s/%04d', $this->rootDir, $dir, $index));
+        if ($this->getFilesystem()->exists($this->getRootDirectory().'/'.$dir.'/index.txt')) {
+            $index = file_get_contents($this->getRootDirectory().'/'.$dir.'/index.txt');
+            if ($this->getFilesystem()->exists(sprintf('%s/%s/%04d', $this->getRootDirectory(), $dir, $index))) {
+                $data     = file_get_contents(sprintf('%s/%s/%04d', $this->getRootDirectory(), $dir, $index));
                 $lastDate = json_decode($data, true)['created_at'];
             }
         }
@@ -56,7 +76,7 @@ class FileManager implements DataManagerInterface
 
         $index = $this->nextIndex($dir);
 
-        $this->fs->dumpFile(sprintf('%s/%s/%04d', $this->rootDir, $dir, $index), json_encode($item));
+        $this->getFilesystem()->dumpFile(sprintf('%s/%s/%04d', $this->getRootDirectory(), $dir, $index), json_encode($item));
     }
 
     /**
@@ -71,24 +91,25 @@ class FileManager implements DataManagerInterface
         $index   = 0;
         $lastDir = '2000-01-01';
 
-        if ($this->fs->exists($this->rootDir.'/index.txt')) {
-            $lastDir = file_get_contents($this->rootDir.'/index.txt');
+        if ($this->getFilesystem()->exists($this->getRootDirectory().'/index.txt')) {
+            $lastDir = file_get_contents($this->getRootDirectory().'/index.txt');
         }
+
         if ($lastDir < $dir) {
-            $this->fs->dumpFile($this->rootDir.'/index.txt', $dir);
+            $this->getFilesystem()->dumpFile($this->getRootDirectory().'/index.txt', $dir);
         }
 
-        if (!$this->fs->exists($this->rootDir.'/'.$dir)) {
-            $this->fs->mkdir($this->rootDir.'/'.$dir);
+        if (!$this->getFilesystem()->exists($this->getRootDirectory().'/'.$dir)) {
+            $this->getFilesystem()->mkdir($this->getRootDirectory().'/'.$dir);
         }
 
-        if ($this->fs->exists($this->rootDir.'/'.$dir.'/index.txt')) {
-            $index = (int) file_get_contents($this->rootDir.'/'.$dir.'/index.txt');
+        if ($this->getFilesystem()->exists($this->getRootDirectory().'/'.$dir.'/index.txt')) {
+            $index = (int) file_get_contents($this->getRootDirectory().'/'.$dir.'/index.txt');
         }
 
         $index++;
 
-        $this->fs->dumpFile($this->rootDir.'/'.$dir.'/index.txt', $index);
+        $this->getFilesystem()->dumpFile($this->getRootDirectory().'/'.$dir.'/index.txt', $index);
 
         return $index;
     }
@@ -103,14 +124,14 @@ class FileManager implements DataManagerInterface
         if (!$day) {
             $time = strtotime(sprintf('%d-%02d-01', $year, $month));
             for ($d = 1; $d < date('t', $time); $d++) {
-                $dirs[] = sprintf('%s/%d-%02d-%02d', $this->rootDir, $year, $month, $d);
+                $dirs[] = sprintf('%s/%d-%02d-%02d', $this->getRootDirectory(), $year, $month, $d);
             }
         } else {
-            $dirs[] = sprintf('%s/%d-%02d-%02d', $this->rootDir, $year, $month, $day);
+            $dirs[] = sprintf('%s/%d-%02d-%02d', $this->getRootDirectory(), $year, $month, $day);
         }
 
         foreach ($dirs as $dir) {
-            if (!$this->fs->exists($dir)) {
+            if (!$this->getFilesystem()->exists($dir)) {
                 continue;
             }
 
