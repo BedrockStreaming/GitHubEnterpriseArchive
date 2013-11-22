@@ -18,7 +18,7 @@ class FileManager implements DataManagerInterface
     /**
      * Constructor
      *
-     * @param string $rootDir
+     * @param string $rootDir Root directory
      */
     public function __construct($rootDir)
     {
@@ -59,6 +59,13 @@ class FileManager implements DataManagerInterface
         $this->fs->dumpFile(sprintf('%s/%s/%04d', $this->rootDir, $dir, $index), json_encode($item));
     }
 
+    /**
+     * Get the next index of a directory
+     * 
+     * @param string $dir Directory
+     * 
+     * @return int
+     */
     protected function nextIndex($dir)
     {
         $index   = 0;

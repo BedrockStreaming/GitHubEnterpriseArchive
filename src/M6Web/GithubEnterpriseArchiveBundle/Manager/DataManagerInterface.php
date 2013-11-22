@@ -17,7 +17,7 @@ interface DataManagerInterface
     /**
      * Save item
      *
-     * @param array $item
+     * @param array $item Item to save
      *
      * @return void
      */
@@ -26,9 +26,9 @@ interface DataManagerInterface
     /**
      * Get all events of a given date (day or month)
      *
-     * @param int $year
-     * @param int $month
-     * @param int $day
+     * @param int $year  Year
+     * @param int $month Month
+     * @param int $day   Day
      *
      * @return array
      */

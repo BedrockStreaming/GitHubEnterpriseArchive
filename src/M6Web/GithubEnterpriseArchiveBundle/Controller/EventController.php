@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class EventController extends Controller
 {
     /**
+     * Get events by day
+     * 
      * @param int $year  Year
      * @param int $month Month
      * @param int $day   Day
@@ -27,6 +29,8 @@ class EventController extends Controller
     }
 
     /**
+     * Get events by month
+     * 
      * @param int $year  Year
      * @param int $month Month
      *
