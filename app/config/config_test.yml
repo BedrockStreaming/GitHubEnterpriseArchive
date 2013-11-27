@@ -1,3 +1,6 @@
+parameters:
+    m6_web_github_enterprise_archive.data_dir: '%kernel.root_dir%/cache/test/data-dir'
+
 imports:
     - { resource: config_dev.yml }
 
