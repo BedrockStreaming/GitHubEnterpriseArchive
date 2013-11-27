@@ -18,7 +18,9 @@ class EventController extends ControllerTest
             ->checkBadRequest()
             ->checkDisabled()
             ->checkGetByDay()
-            ->checkGetByMonth();
+            ->checkGetByMonth()
+            ->checkGetByDayWithPagination()
+            ->checkGetByMonthWithPagination();
     }
 
     protected function checkBadRequest()
@@ -79,6 +81,51 @@ class EventController extends ControllerTest
         return $this;
     }
 
+    protected function checkGetByDayWithPagination()
+    {
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013-10-03?page=1&per_page=1')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent());
+
+        $this->assert
+            ->array($json)
+                ->hasSize(1)
+            ->string($json[0]->created_at)
+                ->isEqualTo('2013-10-03T12:00:00Z')
+            ->string($json[0]->type)
+                ->isEqualTo('CommitCommentEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013-10-03?page=2&per_page=1')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent());
+
+        $this->assert
+            ->array($json)
+                ->hasSize(1)
+            ->string($json[0]->created_at)
+                ->isEqualTo('2013-10-03T10:00:00Z')
+            ->string($json[0]->type)
+                ->isEqualTo('PullRequestEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013-10-03?page=3&per_page=1')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent());
+        $this->assert
+            ->array($json)
+                ->isEmpty();
+
+        return $this;
+    }
+
     protected function checkGetByMonth()
     {
         $json = $this->request(['debug' => true])
@@ -106,6 +153,55 @@ class EventController extends ControllerTest
 
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013-09')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent());
+        $this->assert
+            ->array($json)
+                ->isEmpty();
+
+        return $this;
+    }
+
+    protected function checkGetByMonthWithPagination()
+    {
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013-10?page=1&per_page=2')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent());
+
+        $this->assert
+            ->array($json)
+                ->hasSize(2)
+            ->string($json[0]->created_at)
+                ->isEqualTo('2013-10-03T12:00:00Z')
+            ->string($json[0]->type)
+                ->isEqualTo('CommitCommentEvent')
+            ->string($json[1]->created_at)
+                ->isEqualTo('2013-10-03T10:00:00Z')
+            ->string($json[1]->type)
+                ->isEqualTo('PullRequestEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013-10?page=2&per_page=2')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent());
+
+        $this->assert
+            ->array($json)
+                ->hasSize(1)
+            ->string($json[0]->created_at)
+                ->isEqualTo('2013-10-01T10:00:00Z')
+            ->string($json[0]->type)
+                ->isEqualTo('PullRequestEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013-10?page=3&per_page=2')
                 ->hasStatus(200)
                 ->getValue();
 

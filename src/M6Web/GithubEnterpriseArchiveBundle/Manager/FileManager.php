@@ -115,7 +115,7 @@ class FileManager implements DataManagerInterface
 
         // Ends if all directories are parsed or if we have enough data
         while ((count($data) < $limit) && ($i < $dirsNumber)) {
-            $dir = $dirs[$i++];
+            $dir = $dirs[$dirsNumber - $i++ - 1];
 
             // If it is not a valid directory, skip the directory
             if (!$this->fs->exists($dir) || !$this->fs->exists($dir . '/index.txt')) {
@@ -135,14 +135,13 @@ class FileManager implements DataManagerInterface
                 ->notName('index.txt')
                 ->sortByName();
 
-            $fileIterator = $files->getIterator();
-            $fileIterator->rewind();
-
-            $j = 0;
+            $files       = array_values(iterator_to_array($files->getIterator()));
+            $j           = 0;
+            $filesNumber = count($files);
 
             // Ends if all files are parsed or if we have enough data
-            while ((count($data) < $limit) && ($file = $fileIterator->current())) {
-                $fileIterator->next();
+            while ((count($data) < $limit) && ($j < $filesNumber)) {
+                $file = $files[$filesNumber - $j - 1];
 
                 // If we are not at start index, next file
                 if (($counter + $j++) < $start) {
@@ -155,7 +154,7 @@ class FileManager implements DataManagerInterface
             $counter += $index;
         }
 
-        return array_reverse($data);
+        return $data;
     }
 }
 
