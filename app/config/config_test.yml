@@ -1,3 +1,6 @@
+parameters:
+    m6_web_github_enterprise_archive.data_dir: '%kernel.root_dir%/cache/test/data-dir'
+
 imports:
     - { resource: config_dev.yml }
 
@@ -12,3 +15,6 @@ web_profiler:
     toolbar: false
     intercept_redirects: false
 
+atoum:
+    bundles:
+        M6WebGithubEnterpriseArchiveBundle: ~

@@ -29,6 +29,10 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
         }
 
+        if ($this->getEnvironment() === 'test') {
+            $bundles[] = new atoum\AtoumBundle\AtoumAtoumBundle();
+        }
+
         return $bundles;
     }
 
