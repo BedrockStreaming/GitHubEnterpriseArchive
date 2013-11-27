@@ -49,6 +49,8 @@ class FileManager extends \mageekguy\atoum\test
                 ->isEqualTo([['created_at' => '2013-10-02T12:00:00Z', 'type' => 'PullRequestEvent']])
             ->array($manager->getByDate(2013, 10))
                 ->isEqualTo([
+                    ['created_at' => '2013-10-03T12:00:00Z', 'type' => 'CommitCommentEvent'],
+                    ['created_at' => '2013-10-03T10:00:00Z', 'type' => 'PullRequestEvent'],
                     ['created_at' => '2013-10-02T12:00:00Z', 'type' => 'PullRequestEvent'],
                     ['created_at' => '2013-10-01T11:00:00Z', 'type' => 'CommitCommentEvent'],
                     ['created_at' => '2013-10-01T10:00:00Z', 'type' => 'PullRequestEvent']
