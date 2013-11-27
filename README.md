@@ -1,4 +1,4 @@
-# GitHub Enterprise Archive
+# GitHub Enterprise Archive [![Build Status](https://api.travis-ci.org/M6Web/GitHubEnterpriseArchive.png?branch=master)](http://travis-ci.org/M6Web/GitHubEnterpriseArchive)
 
 Many companies all over the world uses [GitHub Enterprise](https://enterprise.github.com/) to work on lot of internal projects : writing code & documentation, fixing & submitting bugs, and so forth. GitHub Enterprise Archive (aka GHE Archive) is a project to **record** the internal public GitHub Enterprise timeline, **archive it**, and **make it easily accessible for** further analysis.
 
