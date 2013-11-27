@@ -13,8 +13,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 class Downloader extends \mageekguy\atoum\test
 {
     protected $data = [
-        '/timeline.json?page=1' => '[{"created_at":"2013-10-01T12:00:00Z", "type":"PullRequestEvent"}, {"created_at":"2013-10-01T11:00:00Z", "type":"CommitCommentEvent"}]',
-        '/timeline.json?page=2' => '[{"created_at":"2013-10-01T10:00:00Z", "type":"PullRequestEvent"}]',
+        '/timeline.json?page=1' => '[{"created_at":"2013-10-02T12:00:00Z","type":"PullRequestEvent"},{"created_at":"2013-10-01T11:00:00Z","type":"CommitCommentEvent"}]',
+        '/timeline.json?page=2' => '[{"created_at":"2013-10-01T10:00:00Z","type":"PullRequestEvent"}]',
     ];
 
     public function testDownload()
@@ -35,7 +35,7 @@ class Downloader extends \mageekguy\atoum\test
             return $requestMock;
         };
         $dataManagerMock = new \mock\M6Web\GithubEnterpriseArchiveBundle\Manager\DataManagerInterface();
-        $dataManagerMock->getMockController()->getLastSavedDate = '2013-10-01T10:30:00Z';
+        $dataManagerMock->getMockController()->getLastSavedDate = '2013-10-01T10:00:00Z';
 
         $downloader = new TestedClass($guzzleMock, $dataManagerMock, new EventDispatcher());
 
@@ -44,7 +44,6 @@ class Downloader extends \mageekguy\atoum\test
             ->mock($dataManagerMock)
                 ->call('saveItem')
                     ->withArguments(['created_at' => '2013-10-01T11:00:00Z', 'type' => 'CommitCommentEvent'])->once()
-                    ->withArguments(['created_at' => '2013-10-01T12:00:00Z', 'type' => 'PullRequestEvent'])->once();
-
+                    ->withArguments(['created_at' => '2013-10-02T12:00:00Z', 'type' => 'PullRequestEvent'])->once();
     }
 }
