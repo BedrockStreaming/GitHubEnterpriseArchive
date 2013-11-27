@@ -1,0 +1,12 @@
+language: php
+
+php:
+  - 5.4
+
+before_script:
+  - wget http://getcomposer.org/composer.phar
+  - cp app/config/parameters.yml.dist app/config/parameters.yml
+  - php composer.phar install --dev
+
+script:
+    - app/console -e=test atoum
