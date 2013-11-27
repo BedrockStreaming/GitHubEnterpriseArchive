@@ -4,9 +4,11 @@ php:
   - 5.4
 
 before_script:
-  - wget http://getcomposer.org/composer.phar
   - cp app/config/parameters.yml.dist app/config/parameters.yml
-  - php composer.phar install --dev
+  - sed -i 's/{#GITHUB_BASE_URL#}/""/' app/config/parameters.yml
+  - sed -i 's/{#STATHAT_ENABLED#}/false/' app/config/parameters.yml
+  - sed -i 's/{#STATHAT_EZKEY#}/""/' app/config/parameters.yml
+  - composer install
 
 script:
     - app/console -e=test atoum
