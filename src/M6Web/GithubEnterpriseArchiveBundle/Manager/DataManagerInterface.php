@@ -34,5 +34,5 @@ interface DataManagerInterface
      *
      * @return array
      */
-    public function getByDate($year, $month, $day = null, $start = 0, $limit = 10);
+    public function getEvents($year = null, $month = null, $day = null, $start = 0, $limit = 10);
 }

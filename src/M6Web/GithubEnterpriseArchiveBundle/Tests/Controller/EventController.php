@@ -7,7 +7,7 @@ use atoum\AtoumBundle\Test\Controller\ControllerTest;
 
 /**
 * Test of EventController
-* 
+*
 * @author Florent Dubost <fdubost.externe@m6.fr>
 */
 class EventController extends ControllerTest
@@ -18,19 +18,28 @@ class EventController extends ControllerTest
             ->checkBadRequest()
             ->checkDisabled()
             ->checkGetByDay()
-            ->checkGetByMonth()
             ->checkGetByDayWithPagination()
-            ->checkGetByMonthWithPagination();
+            ->checkGetByMonth()
+            ->checkGetByMonthWithPagination()
+            ->checkGetByYear()
+            ->checkGetByYearWithPagination()
+            ->checkEvents()
+            ->checkEventsWithPagination();
+    }
+
+    protected function init()
+    {
+        $this->workingDir = __DIR__ . '/../../../../../app/cache/test/data-dir';
+        $fs = new Filesystem();
+        $fs->mirror(__DIR__.'/../Fixtures/data-dir', $this->workingDir, null, ['override' => true, 'delete' => true]);
+
+        return $this;
     }
 
     protected function checkBadRequest()
     {
         $this->request(['debug' => true])
             ->GET('/api/events/toto')
-                ->hasStatus(404)
-            ->GET('/api/events/2013')
-                ->hasStatus(404)
-            ->GET('/api/events')
                 ->hasStatus(404);
 
         return $this;
@@ -42,6 +51,10 @@ class EventController extends ControllerTest
             ->POST('/api/events/2013-10-01')
                 ->hasStatus(405)
             ->POST('/api/events/2013-10')
+                ->hasStatus(405)
+            ->POST('/api/events/2013')
+                ->hasStatus(405)
+            ->POST('/api/events')
                 ->hasStatus(405);
 
         return $this;
@@ -54,18 +67,18 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
 
         $this->assert
             ->array($json)
                 ->hasSize(2)
-            ->string($json[0]->created_at)
+            ->string($json[0]['created_at'])
                 ->isEqualTo('2013-10-03T12:00:00Z')
-            ->string($json[0]->type)
+            ->string($json[0]['type'])
                 ->isEqualTo('CommitCommentEvent')
-            ->string($json[1]->created_at)
+            ->string($json[1]['created_at'])
                 ->isEqualTo('2013-10-03T10:00:00Z')
-            ->string($json[1]->type)
+            ->string($json[1]['type'])
                 ->isEqualTo('PullRequestEvent');
 
         $response = $this->request(['debug' => true])
@@ -73,7 +86,7 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -88,14 +101,14 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
 
         $this->assert
             ->array($json)
                 ->hasSize(1)
-            ->string($json[0]->created_at)
+            ->string($json[0]['created_at'])
                 ->isEqualTo('2013-10-03T12:00:00Z')
-            ->string($json[0]->type)
+            ->string($json[0]['type'])
                 ->isEqualTo('CommitCommentEvent');
 
         $response = $this->request(['debug' => true])
@@ -103,14 +116,14 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
 
         $this->assert
             ->array($json)
                 ->hasSize(1)
-            ->string($json[0]->created_at)
+            ->string($json[0]['created_at'])
                 ->isEqualTo('2013-10-03T10:00:00Z')
-            ->string($json[0]->type)
+            ->string($json[0]['type'])
                 ->isEqualTo('PullRequestEvent');
 
         $response = $this->request(['debug' => true])
@@ -118,7 +131,7 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -133,22 +146,22 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($json->getContent());
+        $json = json_decode($json->getContent(), true);
 
         $this->assert
             ->array($json)
                 ->hasSize(3)
-            ->string($json[0]->created_at)
+            ->string($json[0]['created_at'])
                 ->isEqualTo('2013-10-03T12:00:00Z')
-            ->string($json[0]->type)
+            ->string($json[0]['type'])
                 ->isEqualTo('CommitCommentEvent')
-            ->string($json[1]->created_at)
+            ->string($json[1]['created_at'])
                 ->isEqualTo('2013-10-03T10:00:00Z')
-            ->string($json[1]->type)
+            ->string($json[1]['type'])
                 ->isEqualTo('PullRequestEvent')
-            ->string($json[2]->created_at)
+            ->string($json[2]['created_at'])
                 ->isEqualTo('2013-10-01T10:00:00Z')
-            ->string($json[2]->type)
+            ->string($json[2]['type'])
                 ->isEqualTo('PullRequestEvent');
 
         $response = $this->request(['debug' => true])
@@ -156,7 +169,7 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -171,18 +184,18 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
 
         $this->assert
             ->array($json)
                 ->hasSize(2)
-            ->string($json[0]->created_at)
+            ->string($json[0]['created_at'])
                 ->isEqualTo('2013-10-03T12:00:00Z')
-            ->string($json[0]->type)
+            ->string($json[0]['type'])
                 ->isEqualTo('CommitCommentEvent')
-            ->string($json[1]->created_at)
+            ->string($json[1]['created_at'])
                 ->isEqualTo('2013-10-03T10:00:00Z')
-            ->string($json[1]->type)
+            ->string($json[1]['type'])
                 ->isEqualTo('PullRequestEvent');
 
         $response = $this->request(['debug' => true])
@@ -190,14 +203,14 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
 
         $this->assert
             ->array($json)
                 ->hasSize(1)
-            ->string($json[0]->created_at)
+            ->string($json[0]['created_at'])
                 ->isEqualTo('2013-10-01T10:00:00Z')
-            ->string($json[0]->type)
+            ->string($json[0]['type'])
                 ->isEqualTo('PullRequestEvent');
 
         $response = $this->request(['debug' => true])
@@ -205,7 +218,7 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent());
+        $json = json_decode($response->getContent(), true);
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -213,11 +226,190 @@ class EventController extends ControllerTest
         return $this;
     }
 
-    protected function init()
+    protected function checkGetByYear()
     {
-        $this->workingDir = __DIR__ . '/../../../../../app/cache/test/data-dir';
-        $fs = new Filesystem();
-        $fs->mirror(__DIR__.'/../Fixtures/data-dir', $this->workingDir, null, ['override' => true, 'delete' => true]);
+        $json = $this->request(['debug' => true])
+            ->GET('/api/events/2013')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($json->getContent(), true);
+
+        $this->assert
+            ->array($json)
+                ->hasSize(4)
+            ->string($json[0]['created_at'])
+                ->isEqualTo('2013-11-01T10:00:00Z')
+            ->string($json[0]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[1]['created_at'])
+                ->isEqualTo('2013-10-03T12:00:00Z')
+            ->string($json[1]['type'])
+                ->isEqualTo('CommitCommentEvent')
+            ->string($json[2]['created_at'])
+                ->isEqualTo('2013-10-03T10:00:00Z')
+            ->string($json[2]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[3]['created_at'])
+                ->isEqualTo('2013-10-01T10:00:00Z')
+            ->string($json[3]['type'])
+                ->isEqualTo('PullRequestEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2011')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent(), true);
+        $this->assert
+            ->array($json)
+                ->isEmpty();
+
+        return $this;
+    }
+
+    protected function checkGetByYearWithPagination()
+    {
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013?page=1&per_page=2')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->array($json)
+                ->hasSize(2)
+            ->string($json[0]['created_at'])
+                ->isEqualTo('2013-11-01T10:00:00Z')
+            ->string($json[0]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[1]['created_at'])
+                ->isEqualTo('2013-10-03T12:00:00Z')
+            ->string($json[1]['type'])
+                ->isEqualTo('CommitCommentEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013?page=2&per_page=2')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->array($json)
+                ->hasSize(2)
+            ->string($json[0]['created_at'])
+                ->isEqualTo('2013-10-03T10:00:00Z')
+            ->string($json[0]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[1]['created_at'])
+                ->isEqualTo('2013-10-01T10:00:00Z')
+            ->string($json[1]['type'])
+                ->isEqualTo('PullRequestEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events/2013?page=3&per_page=2')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent(), true);
+        $this->assert
+            ->array($json)
+                ->isEmpty();
+
+        return $this;
+    }
+
+    protected function checkEvents()
+    {
+        $json = $this->request(['debug' => true])
+            ->GET('/api/events')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($json->getContent(), true);
+
+        $this->assert
+            ->array($json)
+                ->hasSize(5)
+            ->string($json[0]['created_at'])
+                ->isEqualTo('2013-11-01T10:00:00Z')
+            ->string($json[0]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[1]['created_at'])
+                ->isEqualTo('2013-10-03T12:00:00Z')
+            ->string($json[1]['type'])
+                ->isEqualTo('CommitCommentEvent')
+            ->string($json[2]['created_at'])
+                ->isEqualTo('2013-10-03T10:00:00Z')
+            ->string($json[2]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[3]['created_at'])
+                ->isEqualTo('2013-10-01T10:00:00Z')
+            ->string($json[3]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[4]['created_at'])
+                ->isEqualTo('2012-10-02T10:00:00Z')
+            ->string($json[4]['type'])
+                ->isEqualTo('PullRequestEvent');
+
+        return $this;
+    }
+
+    protected function checkEventsWithPagination()
+    {
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events?page=1&per_page=4')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->array($json)
+                ->hasSize(4)
+            ->string($json[0]['created_at'])
+                ->isEqualTo('2013-11-01T10:00:00Z')
+            ->string($json[0]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[1]['created_at'])
+                ->isEqualTo('2013-10-03T12:00:00Z')
+            ->string($json[1]['type'])
+                ->isEqualTo('CommitCommentEvent')
+            ->string($json[2]['created_at'])
+                ->isEqualTo('2013-10-03T10:00:00Z')
+            ->string($json[2]['type'])
+                ->isEqualTo('PullRequestEvent')
+            ->string($json[3]['created_at'])
+                ->isEqualTo('2013-10-01T10:00:00Z')
+            ->string($json[3]['type'])
+                ->isEqualTo('PullRequestEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events?page=2&per_page=4')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->array($json)
+                ->hasSize(1)
+            ->string($json[0]['created_at'])
+                ->isEqualTo('2012-10-02T10:00:00Z')
+            ->string($json[0]['type'])
+                ->isEqualTo('PullRequestEvent');
+
+        $response = $this->request(['debug' => true])
+            ->GET('/api/events?page=3&per_page=4')
+                ->hasStatus(200)
+                ->getValue();
+
+        $json = json_decode($response->getContent(), true);
+        $this->assert
+            ->array($json)
+                ->isEmpty();
 
         return $this;
     }
