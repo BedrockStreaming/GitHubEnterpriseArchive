@@ -11,7 +11,7 @@ GitHub provides [18 event types](http://developer.github.com/v3/activity/events/
 | Your internal activity for November 20, 2013 | `wget http://your-ghe-archive/api/events/2013-11-20` |
 | Your internal activity for November, 2013 | `wget http://your-ghe-archive/api/events/2013-11` |
 | Your internal activity for 2013 | `wget http://your-ghe-archive/api/events/2013` |
-| Your global internal activity | `wget http://your-ghe-archive/api/events` |
+| All your internal activity | `wget http://your-ghe-archive/api/events` |
 
 *Note : use `page` and `per_page` GET parameters to paginate results.*
 
