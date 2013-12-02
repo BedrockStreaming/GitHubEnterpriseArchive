@@ -10,6 +10,8 @@ GitHub provides [18 event types](http://developer.github.com/v3/activity/events/
 |--------|-------------|
 | Your internal activity for November 20, 2013 | `wget http://your-ghe-archive/api/events/2013-11-20` |
 | Your internal activity for November, 2013 | `wget http://your-ghe-archive/api/events/2013-11` |
+| Your internal activity for 2013 | `wget http://your-ghe-archive/api/events/2013` |
+| All your internal activity | `wget http://your-ghe-archive/api/events` |
 
 *Note : use `page` and `per_page` GET parameters to paginate results.*
 
@@ -34,7 +36,7 @@ GHE Archive provides built-in graphs using [Stathat](http://www.stathat.com/) (i
 
 ## Credits
 
-Developped by the [Cytron Team](http://cytron.fr/) of [M6 Web](http://tech.m6web.fr/).  
+Developped by the [Cytron Team](http://cytron.fr/) of [M6 Web](http://tech.m6web.fr/).
 Respectfully inspired by [GitHub Archive](http://www.githubarchive.org/).
 
 ## License

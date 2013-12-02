@@ -28,7 +28,6 @@ class FileManager extends \mageekguy\atoum\test
         $manager = $this->getFileManager();
         $this->assert->string($manager->getLastSavedDate())->isEqualTo('2013-10-03T12:00:00Z');
 
-
         $manager->saveItem(['created_at' => '2013-10-03T13:00:00Z', 'type' => 'CommitCommentEvent']);
         $this->assert
             ->string(file_get_contents($this->workingDir.'/2013-10-03/index.txt'))->isEqualTo('3')
@@ -43,15 +42,15 @@ class FileManager extends \mageekguy\atoum\test
                 ->isEqualTo('{"created_at":"2013-10-04T12:00:00Z","type":"PullRequestEvent"}');
 
         $this->assert
-            ->array($manager->getByDate(2013, 10, 03))
+            ->array($manager->getEvents(2013, 10, 03))
                 ->isEqualTo([
                     ['created_at' => '2013-10-03T13:00:00Z', 'type' => 'CommitCommentEvent'],
                     ['created_at' => '2013-10-03T12:00:00Z', 'type' => 'CommitCommentEvent'],
                     ['created_at' => '2013-10-03T10:00:00Z', 'type' => 'PullRequestEvent']
                 ])
-            ->array($manager->getByDate(2013, 10, 04))
+            ->array($manager->getEvents(2013, 10, 04))
                 ->isEqualTo([['created_at' => '2013-10-04T12:00:00Z', 'type' => 'PullRequestEvent']])
-            ->array($manager->getByDate(2013, 10))
+            ->array($manager->getEvents(2013, 10))
                 ->isEqualTo([
                     ['created_at' => '2013-10-04T12:00:00Z', 'type' => 'PullRequestEvent'],
                     ['created_at' => '2013-10-03T13:00:00Z', 'type' => 'CommitCommentEvent'],

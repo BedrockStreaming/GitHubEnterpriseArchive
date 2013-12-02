@@ -61,9 +61,9 @@ class FileManager implements DataManagerInterface
 
     /**
      * Get the next index of a directory
-     * 
+     *
      * @param string $dir Directory
-     * 
+     *
      * @return int
      */
     protected function nextIndex($dir)
@@ -96,19 +96,25 @@ class FileManager implements DataManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getByDate($year, $month, $day = null, $start = 0, $limit = 20)
+    public function getEvents($year = null, $month = null, $day = null, $start = 0, $limit = 20)
     {
         $data = [];
 
-        if (!$day) {
-            $time = strtotime(sprintf('%d-%02d-01', $year, $month));
-            for ($d = 1; $d < date('t', $time); $d++) {
-                $dirs[] = sprintf('%s/%d-%02d-%02d', $this->rootDir, $year, $month, $d);
+        $globPattern = sprintf("%s/", $this->rootDir);
+
+        if ($year) {
+            $globPattern .= sprintf("%d", $year);
+            if ($month) {
+                $globPattern .= sprintf("-%02d", $month);
+                if ($day) {
+                    $globPattern .= sprintf("-%02d", $day);
+                }
             }
-        } else {
-            $dirs[] = sprintf('%s/%d-%02d-%02d', $this->rootDir, $year, $month, $day);
         }
 
+        $globPattern .= '*';
+
+        $dirs       = glob($globPattern, GLOB_ONLYDIR);
         $dirsNumber = count($dirs);
 
         $i = $counter = 0;
