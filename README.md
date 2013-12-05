@@ -28,15 +28,21 @@ GitHub provides [18 event types](http://developer.github.com/v3/activity/events/
 
 #### Cron
 
-Add the command `app/console archive` to your crontab. Due to Github limitation, it can archive only the last 300 events. You must choose your cron frequency so that there are no more than 300 events between two cron jobs. The command automatically stops archiving events older than the last run. That means you should prefer to run it too frequently rather than risk losing some events.
+Add the command `app/console archive` to your crontab. Due to GitHub limitation, it can archive only the last 300 events. You must choose your cron frequency so that there are no more than 300 events between two cron jobs. The command automatically stops archiving events older than the last run. That means you should prefer to run it too frequently rather than risk losing some events.
 
 #### Stathat (optional)
 
 GHE Archive provides built-in graphs using [Stathat](http://www.stathat.com/) (it's free for 10 stats). If you registered to [Stathat](http://www.stathat.com/), enable the functionality and add your [API key](https://www.stathat.com/settings#ez-api) in `app/config/parameters.yml`. The global activity graph and the per-event graphs are automatically generated.
 
+## Tests
+
+```
+$ app/console atoum -e test
+```
+
 ## Credits
 
-Developped by the [Cytron Team](http://cytron.fr/) of [M6 Web](http://tech.m6web.fr/).
+Developped by the [Cytron Team](http://cytron.fr/) of [M6 Web](http://tech.m6web.fr/).  
 Respectfully inspired by [GitHub Archive](http://www.githubarchive.org/).
 
 ## License
