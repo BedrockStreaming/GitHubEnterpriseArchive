@@ -2,7 +2,7 @@
 
 Many companies all over the world uses [GitHub Enterprise](https://enterprise.github.com/) to work on lot of internal projects : writing code & documentation, fixing & submitting bugs, and so forth. GitHub Enterprise Archive (aka GHE Archive) is a project to **record** the internal public GitHub Enterprise timeline, **archive it**, and **make it easily accessible for** further analysis.
 
-![Stats](http://www.stathat.com//graphs/46/9b/85986d698e40c33a8e60a3755fcc.png)
+![Stats](http://www.stathat.com//graphs/12/b4/8b195d67d0c36404d1fb1ebfd431.png)
 
 GitHub provides [18 event types](http://developer.github.com/v3/activity/events/types/), which range from new commits and fork events, to opening new tickets, commenting, and adding members to a project. The activity is aggregated in daily archives, which you can access with any HTTP client. Each archive contains a stream of JSON encoded GitHub events ([sample](https://gist.github.com/KuiKui/7583276)), which you can process in any language.
 
