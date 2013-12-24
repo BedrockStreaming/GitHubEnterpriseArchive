@@ -67,7 +67,18 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(1)
+            ->string($data['limit'])
+                ->isEqualTo(20)
+            ->integer($data['pages'])
+            ->array($data['_links'])
+                ->hasKeys(['self', 'first', 'last']);
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -86,7 +97,7 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $json = json_decode($response->getContent(), true)['_embedded']['events'];
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -96,12 +107,31 @@ class EventController extends ControllerTest
 
     protected function checkGetByDayWithPagination()
     {
+        // Page 1
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013-10-03?page=1&per_page=1')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(1)
+            ->string($data['limit'])
+                ->isEqualTo(1)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'  => ['href' => 'http://localhost/api/events/2013-10-03?page=1&per_page=1'],
+                    'first' => ['href' => 'http://localhost/api/events/2013-10-03?page=1&per_page=1'],
+                    'last'  => ['href' => 'http://localhost/api/events/2013-10-03?page=2&per_page=1'],
+                    'next'  => ['href' => 'http://localhost/api/events/2013-10-03?page=2&per_page=1'],
+                ));
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -111,12 +141,32 @@ class EventController extends ControllerTest
             ->string($json[0]['type'])
                 ->isEqualTo('CommitCommentEvent');
 
+        // Page 2
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013-10-03?page=2&per_page=1')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(2)
+            ->string($data['limit'])
+                ->isEqualTo(1)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'      => ['href' => 'http://localhost/api/events/2013-10-03?page=2&per_page=1'],
+                    'first'     => ['href' => 'http://localhost/api/events/2013-10-03?page=1&per_page=1'],
+                    'last'      => ['href' => 'http://localhost/api/events/2013-10-03?page=2&per_page=1'],
+                    'previous'  => ['href' => 'http://localhost/api/events/2013-10-03?page=1&per_page=1'],
+                ));
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -126,12 +176,32 @@ class EventController extends ControllerTest
             ->string($json[0]['type'])
                 ->isEqualTo('PullRequestEvent');
 
+        // Page 3
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013-10-03?page=3&per_page=1')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(3)
+            ->string($data['limit'])
+                ->isEqualTo(1)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'      => ['href' => 'http://localhost/api/events/2013-10-03?page=3&per_page=1'],
+                    'first'     => ['href' => 'http://localhost/api/events/2013-10-03?page=1&per_page=1'],
+                    'last'      => ['href' => 'http://localhost/api/events/2013-10-03?page=2&per_page=1'],
+                    'previous'  => ['href' => 'http://localhost/api/events/2013-10-03?page=2&per_page=1'],
+                ));
+
+        $json = $data['_embedded']['events'];
+
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -141,12 +211,23 @@ class EventController extends ControllerTest
 
     protected function checkGetByMonth()
     {
-        $json = $this->request(['debug' => true])
+        $response = $this->request(['debug' => true])
             ->GET('/api/events/2013-10')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($json->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(1)
+            ->string($data['limit'])
+                ->isEqualTo(20)
+            ->integer($data['pages'])
+            ->array($data['_links'])
+                ->hasKeys(['self', 'first', 'last']);
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -169,7 +250,7 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $json = json_decode($response->getContent(), true)['_embedded']['events'];
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -179,12 +260,31 @@ class EventController extends ControllerTest
 
     protected function checkGetByMonthWithPagination()
     {
+        // Page 1
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013-10?page=1&per_page=2')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(1)
+            ->string($data['limit'])
+                ->isEqualTo(2)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'  => ['href' => 'http://localhost/api/events/2013-10?page=1&per_page=2'],
+                    'first' => ['href' => 'http://localhost/api/events/2013-10?page=1&per_page=2'],
+                    'last'  => ['href' => 'http://localhost/api/events/2013-10?page=2&per_page=2'],
+                    'next'  => ['href' => 'http://localhost/api/events/2013-10?page=2&per_page=2'],
+                ));
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -198,12 +298,31 @@ class EventController extends ControllerTest
             ->string($json[1]['type'])
                 ->isEqualTo('PullRequestEvent');
 
+        // Page 2
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013-10?page=2&per_page=2')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(2)
+            ->string($data['limit'])
+                ->isEqualTo(2)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'      => ['href' => 'http://localhost/api/events/2013-10?page=2&per_page=2'],
+                    'first'     => ['href' => 'http://localhost/api/events/2013-10?page=1&per_page=2'],
+                    'last'      => ['href' => 'http://localhost/api/events/2013-10?page=2&per_page=2'],
+                    'previous'  => ['href' => 'http://localhost/api/events/2013-10?page=1&per_page=2'],
+                ));
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -213,12 +332,32 @@ class EventController extends ControllerTest
             ->string($json[0]['type'])
                 ->isEqualTo('PullRequestEvent');
 
+        // Page 3
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013-10?page=3&per_page=2')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(3)
+            ->string($data['limit'])
+                ->isEqualTo(2)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'      => ['href' => 'http://localhost/api/events/2013-10?page=3&per_page=2'],
+                    'first'     => ['href' => 'http://localhost/api/events/2013-10?page=1&per_page=2'],
+                    'last'      => ['href' => 'http://localhost/api/events/2013-10?page=2&per_page=2'],
+                    'previous'  => ['href' => 'http://localhost/api/events/2013-10?page=2&per_page=2'],
+                ));
+
+        $json = $data['_embedded']['events'];
+
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -228,12 +367,23 @@ class EventController extends ControllerTest
 
     protected function checkGetByYear()
     {
-        $json = $this->request(['debug' => true])
+        $response = $this->request(['debug' => true])
             ->GET('/api/events/2013')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($json->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(1)
+            ->string($data['limit'])
+                ->isEqualTo(20)
+            ->integer($data['pages'])
+            ->array($data['_links'])
+                ->hasKeys(['self', 'first', 'last']);
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -260,7 +410,7 @@ class EventController extends ControllerTest
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $json = json_decode($response->getContent(), true)['_embedded']['events'];
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -270,12 +420,31 @@ class EventController extends ControllerTest
 
     protected function checkGetByYearWithPagination()
     {
+        // Page 1
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013?page=1&per_page=2')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(1)
+            ->string($data['limit'])
+                ->isEqualTo(2)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'  => ['href' => 'http://localhost/api/events/2013?page=1&per_page=2'],
+                    'first' => ['href' => 'http://localhost/api/events/2013?page=1&per_page=2'],
+                    'last'  => ['href' => 'http://localhost/api/events/2013?page=2&per_page=2'],
+                    'next'  => ['href' => 'http://localhost/api/events/2013?page=2&per_page=2'],
+                ));
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -289,12 +458,31 @@ class EventController extends ControllerTest
             ->string($json[1]['type'])
                 ->isEqualTo('CommitCommentEvent');
 
+        // Page 2
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013?page=2&per_page=2')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(2)
+            ->string($data['limit'])
+                ->isEqualTo(2)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'      => ['href' => 'http://localhost/api/events/2013?page=2&per_page=2'],
+                    'first'     => ['href' => 'http://localhost/api/events/2013?page=1&per_page=2'],
+                    'last'      => ['href' => 'http://localhost/api/events/2013?page=2&per_page=2'],
+                    'previous'  => ['href' => 'http://localhost/api/events/2013?page=1&per_page=2'],
+                ));
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -308,12 +496,32 @@ class EventController extends ControllerTest
             ->string($json[1]['type'])
                 ->isEqualTo('PullRequestEvent');
 
+        // Page 3
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events/2013?page=3&per_page=2')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(3)
+            ->string($data['limit'])
+                ->isEqualTo(2)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'      => ['href' => 'http://localhost/api/events/2013?page=3&per_page=2'],
+                    'first'     => ['href' => 'http://localhost/api/events/2013?page=1&per_page=2'],
+                    'last'      => ['href' => 'http://localhost/api/events/2013?page=2&per_page=2'],
+                    'previous'  => ['href' => 'http://localhost/api/events/2013?page=2&per_page=2'],
+                ));
+
+        $json = $data['_embedded']['events'];
+
         $this->assert
             ->array($json)
                 ->isEmpty();
@@ -323,12 +531,23 @@ class EventController extends ControllerTest
 
     protected function checkEvents()
     {
-        $json = $this->request(['debug' => true])
+        $response = $this->request(['debug' => true])
             ->GET('/api/events')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($json->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(1)
+            ->string($data['limit'])
+                ->isEqualTo(20)
+            ->integer($data['pages'])
+            ->array($data['_links'])
+                ->hasKeys(['self', 'first', 'last']);
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -359,12 +578,31 @@ class EventController extends ControllerTest
 
     protected function checkEventsWithPagination()
     {
+        // Page 1
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events?page=1&per_page=4')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(1)
+            ->string($data['limit'])
+                ->isEqualTo(4)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'  => ['href' => 'http://localhost/api/events?page=1&per_page=4'],
+                    'first' => ['href' => 'http://localhost/api/events?page=1&per_page=4'],
+                    'last'  => ['href' => 'http://localhost/api/events?page=2&per_page=4'],
+                    'next'  => ['href' => 'http://localhost/api/events?page=2&per_page=4'],
+                ));
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -386,12 +624,31 @@ class EventController extends ControllerTest
             ->string($json[3]['type'])
                 ->isEqualTo('PullRequestEvent');
 
+        // Page 2
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events?page=2&per_page=4')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(2)
+            ->string($data['limit'])
+                ->isEqualTo(4)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'      => ['href' => 'http://localhost/api/events?page=2&per_page=4'],
+                    'first'     => ['href' => 'http://localhost/api/events?page=1&per_page=4'],
+                    'last'      => ['href' => 'http://localhost/api/events?page=2&per_page=4'],
+                    'previous'  => ['href' => 'http://localhost/api/events?page=1&per_page=4'],
+                ));
+
+        $json = $data['_embedded']['events'];
 
         $this->assert
             ->array($json)
@@ -401,12 +658,32 @@ class EventController extends ControllerTest
             ->string($json[0]['type'])
                 ->isEqualTo('PullRequestEvent');
 
+        // Page 3
+
         $response = $this->request(['debug' => true])
             ->GET('/api/events?page=3&per_page=4')
                 ->hasStatus(200)
                 ->getValue();
 
-        $json = json_decode($response->getContent(), true);
+        $data = json_decode($response->getContent(), true);
+
+        $this->assert
+            ->string($data['page'])
+                ->isEqualTo(3)
+            ->string($data['limit'])
+                ->isEqualTo(4)
+            ->integer($data['pages'])
+                ->isEqualTo(2)
+            ->array($data['_links'])
+                ->isEqualTo(array(
+                    'self'      => ['href' => 'http://localhost/api/events?page=3&per_page=4'],
+                    'first'     => ['href' => 'http://localhost/api/events?page=1&per_page=4'],
+                    'last'      => ['href' => 'http://localhost/api/events?page=2&per_page=4'],
+                    'previous'  => ['href' => 'http://localhost/api/events?page=2&per_page=4'],
+                ));
+
+        $json = $data['_embedded']['events'];
+
         $this->assert
             ->array($json)
                 ->isEmpty();
