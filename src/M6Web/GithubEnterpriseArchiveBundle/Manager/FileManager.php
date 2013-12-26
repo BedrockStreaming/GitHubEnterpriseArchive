@@ -162,5 +162,45 @@ class FileManager implements DataManagerInterface
 
         return $data;
     }
-}
 
+     /**
+     * {@inheritdoc}
+     */
+    public function getEventCount($year = null, $month = null, $day = null)
+    {
+        $globPattern = sprintf("%s/", $this->rootDir);
+
+        if ($year) {
+            $globPattern .= sprintf("%d", $year);
+            if ($month) {
+                $globPattern .= sprintf("-%02d", $month);
+                if ($day) {
+                    $globPattern .= sprintf("-%02d", $day);
+                }
+            }
+        }
+
+        $globPattern .= '*';
+
+        $dirs       = glob($globPattern, GLOB_ONLYDIR);
+        $dirsNumber = count($dirs);
+
+        $i = $counter = 0;
+
+        // Ends if all directories are parsed or if we have enough data
+        while ($i < $dirsNumber) {
+            $dir = $dirs[$dirsNumber - $i++ - 1];
+
+            // If it is not a valid directory, skip the directory
+            if (!$this->fs->exists($dir) || !$this->fs->exists($dir . '/index.txt')) {
+                continue;
+            }
+
+            $index = (int) file_get_contents($dir . '/index.txt');
+
+            $counter += $index;
+        }
+
+        return $counter;
+    }
+}

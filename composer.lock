@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "20e5e8d66f1043fa85a53510c26df12a",
+    "hash": "c57a511a180e5bb9f6527456b1ebd8bf",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -726,16 +726,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "0.13.0",
+            "version": "0.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "9e0fcd00a374e9ad484687628c6c25ab1083ea5a"
+                "reference": "22daa254e54f4b69292bd8679d7a6f3a78dc85d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/9e0fcd00a374e9ad484687628c6c25ab1083ea5a",
-                "reference": "9e0fcd00a374e9ad484687628c6c25ab1083ea5a",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/22daa254e54f4b69292bd8679d7a6f3a78dc85d4",
+                "reference": "22daa254e54f4b69292bd8679d7a6f3a78dc85d4",
                 "shasum": ""
             },
             "require": {
@@ -747,6 +747,9 @@
             },
             "require-dev": {
                 "doctrine/orm": ">=2.1,<2.4-dev",
+                "doctrine/phpcr-odm": "~1.0.1",
+                "jackalope/jackalope-doctrine-dbal": "1.0.*",
+                "propel/propel1": "~1.7",
                 "symfony/filesystem": "2.*",
                 "symfony/form": ">=2.1,<2.2-dev",
                 "symfony/translation": ">=2.0,<2.2-dev",
@@ -760,7 +763,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.13-dev"
+                    "dev-master": "0.14-dev"
                 }
             },
             "autoload": {
@@ -789,21 +792,21 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-07-29 13:39:49"
+            "time": "2013-12-04 16:46:05"
         },
         {
             "name": "jms/serializer-bundle",
-            "version": "0.12.0",
+            "version": "0.13.0",
             "target-dir": "JMS/SerializerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSerializerBundle.git",
-                "reference": "5531198a73c4adee669a8a2d1452999349822771"
+                "reference": "bb15db3e661168f4310fad48b86915ff1ca33795"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/5531198a73c4adee669a8a2d1452999349822771",
-                "reference": "5531198a73c4adee669a8a2d1452999349822771",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/bb15db3e661168f4310fad48b86915ff1ca33795",
+                "reference": "bb15db3e661168f4310fad48b86915ff1ca33795",
                 "shasum": ""
             },
             "require": {
@@ -830,7 +833,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-master": "0.13-dev"
                 }
             },
             "autoload": {
@@ -859,25 +862,25 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-07-29 12:36:36"
+            "time": "2013-12-05 14:36:11"
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "2.4.2",
+            "version": "2.4.4",
             "target-dir": "Nelmio/ApiDocBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "4ff018b11152ee73d4a690ea69b02f41fd96d24d"
+                "reference": "4b6efc6631161f9ddb64aecfbcbc8d117a77df52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/4ff018b11152ee73d4a690ea69b02f41fd96d24d",
-                "reference": "4ff018b11152ee73d4a690ea69b02f41fd96d24d",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/4b6efc6631161f9ddb64aecfbcbc8d117a77df52",
+                "reference": "4b6efc6631161f9ddb64aecfbcbc8d117a77df52",
                 "shasum": ""
             },
             "require": {
-                "dflydev/markdown": "1.0.*",
+                "dflydev/markdown": "~1.0",
                 "symfony/console": "~2.1",
                 "symfony/framework-bundle": "~2.1",
                 "symfony/twig-bundle": "~2.1"
@@ -934,7 +937,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2013-11-14 16:01:56"
+            "time": "2013-12-16 15:47:21"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -1122,17 +1125,17 @@
         },
         {
             "name": "symfony/expression-language",
-            "version": "v2.4.0-BETA2",
+            "version": "v2.4.0",
             "target-dir": "Symfony/Component/ExpressionLanguage",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/expression-language.git",
-                "reference": "e211269d4cd5e8b61ec2163a99541d31ee657fa5"
+                "reference": "54ee1629680bf4313412cef284c6b19fd64c7a29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/expression-language/zipball/e211269d4cd5e8b61ec2163a99541d31ee657fa5",
-                "reference": "e211269d4cd5e8b61ec2163a99541d31ee657fa5",
+                "url": "https://api.github.com/repos/symfony/expression-language/zipball/54ee1629680bf4313412cef284c6b19fd64c7a29",
+                "reference": "54ee1629680bf4313412cef284c6b19fd64c7a29",
                 "shasum": ""
             },
             "require": {
@@ -1165,7 +1168,7 @@
             ],
             "description": "Symfony ExpressionLanguage Component",
             "homepage": "http://symfony.com",
-            "time": "2013-10-30 08:33:58"
+            "time": "2013-11-28 06:52:02"
         },
         {
             "name": "symfony/icu",
@@ -1217,16 +1220,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.3.7",
+            "version": "v2.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "2829b471871c2564228fe9f0832a0f928a8ffaa1"
+                "reference": "b0b421908d569e5024372ded65857707c409e0f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/2829b471871c2564228fe9f0832a0f928a8ffaa1",
-                "reference": "2829b471871c2564228fe9f0832a0f928a8ffaa1",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/b0b421908d569e5024372ded65857707c409e0f7",
+                "reference": "b0b421908d569e5024372ded65857707c409e0f7",
                 "shasum": ""
             },
             "require": {
@@ -1321,20 +1324,20 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-11-14 07:58:51"
+            "time": "2013-12-16 14:36:05"
         },
         {
             "name": "twig/twig",
-            "version": "v1.14.2",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "ca445842fcea4f844d68203ffa2d00f5e3cdea64"
+                "reference": "85e4ff98000157ff753d934b9f13659a953f5666"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/ca445842fcea4f844d68203ffa2d00f5e3cdea64",
-                "reference": "ca445842fcea4f844d68203ffa2d00f5e3cdea64",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/85e4ff98000157ff753d934b9f13659a953f5666",
+                "reference": "85e4ff98000157ff753d934b9f13659a953f5666",
                 "shasum": ""
             },
             "require": {
@@ -1343,7 +1346,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.14-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -1370,20 +1373,135 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-10-30 08:20:53"
+            "time": "2013-12-06 07:47:10"
         },
         {
-            "name": "willdurand/negotiation",
-            "version": "1.0.2",
+            "name": "willdurand/hateoas",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "d5d080d5405e3e0895038b5b578458884cdf8af6"
+                "url": "https://github.com/willdurand/Hateoas.git",
+                "reference": "2411aa48e9faeefac8a1cefc456602d5153c681f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/d5d080d5405e3e0895038b5b578458884cdf8af6",
-                "reference": "d5d080d5405e3e0895038b5b578458884cdf8af6",
+                "url": "https://api.github.com/repos/willdurand/Hateoas/zipball/2411aa48e9faeefac8a1cefc456602d5153c681f",
+                "reference": "2411aa48e9faeefac8a1cefc456602d5153c681f",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "~1.0",
+                "doctrine/common": "~2.0",
+                "jms/metadata": "~1.1",
+                "jms/serializer": "~0.13@dev",
+                "symfony/expression-language": "~2.4"
+            },
+            "require-dev": {
+                "atoum/atoum": "dev-master",
+                "hautelook/frankenstein": "~0.1",
+                "pagerfanta/pagerfanta": "~1.0",
+                "phpunit/phpunit": "~3.7",
+                "symfony/dependency-injection": "~2.0",
+                "symfony/routing": "~2.0",
+                "symfony/yaml": "~2.0"
+            },
+            "suggest": {
+                "symfony/routing": "To use the SymfonyRouteFactory.",
+                "symfony/yaml": "To use yaml based configuration."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Hateoas": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com",
+                    "homepage": "http://www.willdurand.fr"
+                },
+                {
+                    "name": "Adrien Brault",
+                    "email": "adrien.brault@gmail.com"
+                }
+            ],
+            "description": "A PHP library to support implementing representations for HATEOAS REST web services",
+            "time": "2013-12-24 01:43:14"
+        },
+        {
+            "name": "willdurand/hateoas-bundle",
+            "version": "0.1.1",
+            "target-dir": "Bazinga/Bundle/HateoasBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/BazingaHateoasBundle.git",
+                "reference": "cc1da1a0a18427fa8b77db5c4d2d6b3473ed55bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/BazingaHateoasBundle/zipball/cc1da1a0a18427fa8b77db5c4d2d6b3473ed55bb",
+                "reference": "cc1da1a0a18427fa8b77db5c4d2d6b3473ed55bb",
+                "shasum": ""
+            },
+            "require": {
+                "jms/serializer-bundle": "~0.13",
+                "symfony/framework-bundle": "~2.2",
+                "willdurand/hateoas": "~2.0"
+            },
+            "require-dev": {
+                "symfony/expression-language": "~2.4"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Bazinga\\Bundle\\HateoasBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Durand",
+                    "email": "william.durand1@gmail.com",
+                    "homepage": "http://www.willdurand.fr"
+                }
+            ],
+            "description": "Integration of Hateoas into Symfony2.",
+            "keywords": [
+                "HATEOAS",
+                "rest"
+            ],
+            "time": "2013-12-18 23:39:49"
+        },
+        {
+            "name": "willdurand/negotiation",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/willdurand/Negotiation.git",
+                "reference": "366e31cfc247946dfe8c622bc00041964e9b294f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/366e31cfc247946dfe8c622bc00041964e9b294f",
+                "reference": "366e31cfc247946dfe8c622bc00041964e9b294f",
                 "shasum": ""
             },
             "require": {
@@ -1420,7 +1538,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2013-11-21 10:29:12"
+            "time": "2013-11-26 14:42:16"
         }
     ],
     "packages-dev": [
@@ -1430,12 +1548,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/atoum/atoum.git",
-                "reference": "a68f36516b49455eec28fc01323bb4dae8b6704f"
+                "reference": "45dbd79ab818c31886b31607688f6f54a4acbe9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atoum/atoum/zipball/a68f36516b49455eec28fc01323bb4dae8b6704f",
-                "reference": "a68f36516b49455eec28fc01323bb4dae8b6704f",
+                "url": "https://api.github.com/repos/atoum/atoum/zipball/45dbd79ab818c31886b31607688f6f54a4acbe9f",
+                "reference": "45dbd79ab818c31886b31607688f6f54a4acbe9f",
                 "shasum": ""
             },
             "require": {
@@ -1496,7 +1614,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2013-11-14 13:13:05"
+            "time": "2013-12-17 13:08:00"
         },
         {
             "name": "atoum/atoum-bundle",
@@ -1557,16 +1675,16 @@
         },
         {
             "name": "fzaninotto/faker",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "4ad4bc4b5c8d3c0f3cf55d2fedc2f65b313ec62f"
+                "reference": "1d143fd8caf4d264602450bc01d7484af788706b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/4ad4bc4b5c8d3c0f3cf55d2fedc2f65b313ec62f",
-                "reference": "4ad4bc4b5c8d3c0f3cf55d2fedc2f65b313ec62f",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/1d143fd8caf4d264602450bc01d7484af788706b",
+                "reference": "1d143fd8caf4d264602450bc01d7484af788706b",
                 "shasum": ""
             },
             "require": {
@@ -1575,7 +1693,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.0-dev"
                 }
             },
             "autoload": {
@@ -1599,7 +1717,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-06-09 18:05:57"
+            "time": "2013-12-16 21:56:48"
         }
     ],
     "aliases": [

@@ -2,3 +2,5 @@ parameters:
     github_base_url: GITHUB_BASE_URL
     stathat_enabled: false
     stathat_ezkey:   STATHAT_EZKEY
+
+    symfony.expression.language.class: Symfony\Component\ExpressionLanguage\ExpressionLanguage

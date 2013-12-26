@@ -8,6 +8,8 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Hateoas\Representation\PaginatedRepresentation;
+use Hateoas\Representation\CollectionRepresentation;
 
 /**
  * Class EventController
@@ -43,9 +45,11 @@ class EventController extends FOSRestController
     {
         list($start, $limit) = $this->getStartAndLimitFromParams($paramFetcher);
 
-        $data = $this->get('m6_web_github_enterprise_archive.file_manager')->getEvents($year, $month, $day, $start, $limit);
+        $manager    = $this->get('m6_web_github_enterprise_archive.file_manager');
+        $data       = $manager->getEvents($year, $month, $day, $start, $limit);
+        $eventCount = $manager->getEventCount($year, $month, $day);
 
-        return $this->view($data);
+        return $this->view($this->getPaginatedData($data, $eventCount, $paramFetcher));
     }
 
     /**
@@ -74,9 +78,11 @@ class EventController extends FOSRestController
     {
         list($start, $limit) = $this->getStartAndLimitFromParams($paramFetcher);
 
-        $data = $this->get('m6_web_github_enterprise_archive.file_manager')->getEvents($year, $month, null, $start, $limit);
+        $manager    = $this->get('m6_web_github_enterprise_archive.file_manager');
+        $data       = $manager->getEvents($year, $month, null, $start, $limit);
+        $eventCount = $manager->getEventCount($year, $month);
 
-        return $this->view($data);
+        return $this->view($this->getPaginatedData($data, $eventCount, $paramFetcher));
     }
 
     /**
@@ -104,9 +110,11 @@ class EventController extends FOSRestController
     {
         list($start, $limit) = $this->getStartAndLimitFromParams($paramFetcher);
 
-        $data = $this->get('m6_web_github_enterprise_archive.file_manager')->getEvents($year, null, null, $start, $limit);
+        $manager    = $this->get('m6_web_github_enterprise_archive.file_manager');
+        $data       = $manager->getEvents($year, null, null, $start, $limit);
+        $eventCount = $manager->getEventCount($year);
 
-        return $this->view($data);
+        return $this->view($this->getPaginatedData($data, $eventCount, $paramFetcher));
     }
 
     /**
@@ -133,9 +141,11 @@ class EventController extends FOSRestController
     {
         list($start, $limit) = $this->getStartAndLimitFromParams($paramFetcher);
 
-        $data = $this->get('m6_web_github_enterprise_archive.file_manager')->getEvents(null, null, null, $start, $limit);
+        $manager    = $this->get('m6_web_github_enterprise_archive.file_manager');
+        $data       = $manager->getEvents(null, null, null, $start, $limit);
+        $eventCount = $manager->getEventCount();
 
-        return $this->view($data);
+        return $this->view($this->getPaginatedData($data, $eventCount, $paramFetcher));
     }
 
     /**
@@ -166,5 +176,35 @@ class EventController extends FOSRestController
     private function getStartAndLimitFromParams(ParamFetcher $paramFetcher)
     {
         return $this->getStartAndLimit((int) $paramFetcher->get('page'), (int) $paramFetcher->get('per_page'));
+    }
+
+    /**
+     * Get events data with pagination data
+     * 
+     * @param array        $data         Events data
+     * @param int          $eventCount   Total events number
+     * @param ParamFetcher $paramFetcher ParamFetcher
+     * 
+     * @return array
+     */
+    private function getPaginatedData($data, $eventCount, ParamFetcher $paramFetcher)
+    {
+        $pageCount = ceil($eventCount / $paramFetcher->get('per_page'));
+
+        $paginatedCollection = new PaginatedRepresentation(
+            new CollectionRepresentation($data, 'events', 'events'),
+            $this->getRequest()->get('_route'), // route
+            $this->getRequest()->attributes->get('_route_params'), // route parameters
+            $paramFetcher->get('page'), // page
+            $paramFetcher->get('per_page'), // limit
+            $pageCount, // total pages
+            'page', // page route parameter name
+            'per_page', // limit route parameter name
+            true // generate absolute URIs
+        );
+
+        $json = $this->get('hateoas')->serialize($paginatedCollection, 'json');
+
+        return json_decode($json, true);
     }
 }

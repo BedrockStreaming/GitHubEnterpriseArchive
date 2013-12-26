@@ -13,7 +13,7 @@ GitHub provides [18 event types](http://developer.github.com/v3/activity/events/
 | Your internal activity for 2013 | `wget http://your-ghe-archive/api/events/2013` |
 | All your internal activity | `wget http://your-ghe-archive/api/events` |
 
-*Note : use `page` and `per_page` GET parameters to paginate results.*
+Lists are formatted following [HAL specifications](http://stateless.co/hal_specification.html) and you can use `page` and `per_page` GET parameters to paginate results.
 
 ## Installation
 

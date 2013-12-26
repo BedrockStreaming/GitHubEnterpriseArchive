@@ -19,3 +19,12 @@ services:
         class: 'M6Web\GithubEnterpriseArchiveBundle\Manager\FileManager'
         arguments:
             - '%m6_web_github_enterprise_archive.data_dir%'
+
+    hateoas_factory:
+        class: 'Hateoas\HateoasBuilder'
+        calls:
+            - [ setUrlGenerator, [ ~, @hateoas.generator.symfony ]]
+    hateoas:
+        class:            'Hateoas\Hateoas'
+        factory_service:  hateoas_factory
+        factory_method:   build
