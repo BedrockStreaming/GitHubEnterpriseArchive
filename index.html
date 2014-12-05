@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Archive and graph your GitHub Enterprise timeline">
+    <meta name="author" content="Team Cytron - M6Web">
+    <meta itemprop="image" content="http://gems.github.com/octocat.png" />
+
+    <title>GitHub Enterprise Archive</title>
+
+    <link rel="shortcut icon" href="https://github.com/favicon.ico">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+      body {
+        font-size: 16px;
+        line-height: 25px;
+        padding: 20px 15px;
+      }
+
+      .container {
+        max-width: 940px;
+      }
+
+      .header {
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        color: #333333;
+        font-size: 30px;
+        font-weight: bold;
+        margin-top: 0;
+        margin-bottom: 0;
+        line-height: 40px;
+      }
+
+      .header h1 em {
+        color: #c60000;
+        font-style: normal;
+      }
+
+      .lead bold {
+        font-weight: bold;
+      }
+
+      ul.nav {
+        margin-top: 1em;
+      }
+
+      .action {
+        display: block;
+        margin: 30px auto 30px;
+        width: 240px;
+      }
+
+      .footer {
+        border-top: 1px solid #e5e5e5;
+        color: #777;
+        font-size: 13px;
+        padding-top: 19px;
+      }
+    </style>
+    <script type="text/javascript">
+      var _gauges = _gauges || [];
+      (function() {
+        var t   = document.createElement('script');
+        t.type  = 'text/javascript';
+        t.async = true;
+        t.id    = 'gauges-tracker';
+        t.setAttribute('data-site-id', '52cbbd44eddd5b04e90014af');
+        t.src = '//secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><iframe src="http://ghbtns.com/github-btn.html?user=M6Web&repo=GitHubEnterpriseArchive&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px"></iframe></li>
+          <li>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-text="Archive and graph your #GitHub Enterprise timeline. #ghearchive #TeamCytron" data-via="TechM6Web">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+          </li>
+        </ul>
+        <h1 class="text-muted">GitHub Enterprise <em>Archive</em></h1>
+      </div>
+
+      <div class="jumbotron">
+        <script src="http://www.stathat.com/javascripts/embed.js"></script>
+        <script>StatHatEmbed.render({s1: 'QzZM', w: 840, h: 240, title: 'M6Web GitHub Enterprise Event'});</script>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <p class="lead">Many companies all over the world uses GitHub Enterprise to work on lot of internal projects : writing code & documentation, fixing & submitting bugs, and so forth. GitHub Enterprise Archive is a project to <bold>record</bold> the internal public GitHub Enterprise timeline, <bold>archive</bold> it, and <bold>make it easily accessible for</bold> further analysis.</p>
+          <hr />
+          <p>GitHub provides <a href="http://developer.github.com/v3/activity/events/types/" title="Event types">18 event types</a>, which range from new commits and fork events, to opening new tickets, commenting, and adding members to a project. The activity is aggregated in daily archives, which you can access with any HTTP client. Each archive contains a stream of JSON encoded GitHub events (<a href="https://gist.github.com/KuiKui/7583276" title="PushEvent sample">sample</a>), which you can process in any language.</p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Query</th>
+                <th>Command</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Your internal activity for November 20, 2013</td>
+                <td><code>wget http://your-ghe-archive/api/events/2013-11-20</code></td>
+              </tr>
+              <tr>
+                <td>Your internal activity for November, 2013</td>
+                <td><code>wget http://your-ghe-archive/api/events/2013-11</code></td>
+              </tr>
+              <tr>
+                <td>Your internal activity for 2013</td>
+                <td><code>wget http://your-ghe-archive/api/events/2013</code></td>
+              </tr>
+              <tr>
+                <td>All your internal activity</td>
+                <td><code>wget http://your-ghe-archive/api/events</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="https://github.com/M6Web/GitHubEnterpriseArchive#installation" title="Install GitHub Enterprise Archive" class="btn btn-default btn-lg action">How to install my own</a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>By Team Cytron of <a href="http://tech.m6web.fr" title="M6Web">M6Web</a>, respectfully inspired by <a href="http://githubarchive.org" title="GitHub Archive">GitHub Archive</a>.</p>
+      </div>
+
+    </div>
+  </body>
+</html>
